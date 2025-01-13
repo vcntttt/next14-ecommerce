@@ -61,6 +61,12 @@ export const getPaginatedProducts = async ({
       })),
     };
   } catch (error) {
-    throw new Error("Error fetching products: " + error);
+    // throw new Error("Error fetching products: " + error);
+    console.log("Error fetching products: " + error);
+    return {
+      currentPage,
+      totalPages: 0,
+      products: [],
+    };
   }
 };

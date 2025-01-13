@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -23,25 +22,33 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { signInWithCredentials } from "@/actions/auth/login";
+import { GoogleButton } from "./google-button";
+import { Checkbox } from "../ui/checkbox";
 
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
   const formSchema = z.object({
-    email: z.string().min(2).max(50), //todo: pasar a email
+    email: z.string().email().min(2).max(50),
     password: z.string().min(6).max(50),
+    remember: z.boolean(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: localStorage.getItem("rememberedEmail") ?? "",
+      password: "123456",
+      remember: false,
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (values.remember) {
+      localStorage.setItem("rememberedEmail", values.email)
+    }
+
     console.log("🚀 ~ onSubmit ~ values:", values);
     await signInWithCredentials(values);
     window.location.replace("/");
@@ -52,20 +59,10 @@ export function LoginForm({
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome back</CardTitle>
-          <CardDescription>
-            Login with your Google account
-          </CardDescription>
+          <CardDescription>Login with your Google account</CardDescription>
         </CardHeader>
         <CardContent>
-          <Button variant="outline" className="w-full">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-              <path
-                d="M12.48 10.92v3.28h7.84c-.24 1.84-.853 3.187-1.787 4.133-1.147 1.147-2.933 2.4-6.053 2.4-4.827 0-8.6-3.893-8.6-8.72s3.773-8.72 8.6-8.72c2.6 0 4.507 1.027 5.907 2.347l2.307-2.307C18.747 1.44 16.133 0 12.48 0 5.867 0 .307 5.387.307 12s5.56 12 12.173 12c3.573 0 6.267-1.173 8.373-3.36 2.16-2.16 2.84-5.213 2.84-7.667 0-.76-.053-1.467-.173-2.053H12.48z"
-                fill="#181818"
-              />
-            </svg>
-            Login with Google
-          </Button>
+          <GoogleButton />
           <div>
             <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border my-6">
               <span className="relative z-10 bg-background px-2 text-muted-foreground">
@@ -84,11 +81,12 @@ export function LoginForm({
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input placeholder="john@example.com" {...field} type="email"/>
+                        <Input
+                          placeholder="john@example.com"
+                          {...field}
+                          type="email"
+                        />
                       </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -100,12 +98,32 @@ export function LoginForm({
                     <FormItem>
                       <FormLabel>Password</FormLabel>
                       <FormControl>
-                        <Input placeholder="******" {...field} type="password"/>
+                        <Input
+                          placeholder="******"
+                          {...field}
+                          type="password"
+                        />
                       </FormControl>
-                      <FormDescription>
-                        This is your public display name.
-                      </FormDescription>
                       <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="remember"
+                  render={({ field }) => (
+                    <FormItem className="flex items-start space-x-3 space-y-0">
+                      <FormControl>
+                        <Checkbox
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <div className="space-y-1 leading-none">
+                        <FormLabel>
+                          Recuerdame
+                        </FormLabel>
+                      </div>
                     </FormItem>
                   )}
                 />

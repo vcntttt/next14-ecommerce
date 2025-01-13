@@ -1,6 +1,7 @@
-"use client"
+"use client";
 import { Input } from "@/components/ui/input";
 import { useUIStore } from "@/store/ui-store";
+import { Role } from "@prisma/client";
 import clsx from "clsx";
 import {
   LogIn,
@@ -11,33 +12,27 @@ import {
   UserIcon,
   XIcon,
 } from "lucide-react";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { Button } from "../ui/button";
 
 export const Sidebar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
   const closeMenu = useUIStore((state) => state.closeSideMenu);
+  const { data: session } = useSession();
+  const isAuthenticated = !!session?.user;
+  const role = session?.user?.role;
 
-  const isLoggedIn = false;
-  const menuOptions = [
+  const adminOptions = [
     {
-      name: "Perfil",
-      href: "/profile",
-      icon: UserIcon,
+      name: "Productos",
+      href: "/",
+      icon: ShirtIcon,
     },
     {
       name: "Ordenes",
       href: "/",
       icon: TicketIcon,
-    },
-    {
-      name: isLoggedIn ? "Salir" : "Ingresar",
-      href: isLoggedIn ? "/auth/logout" : "/auth/login",
-      icon: isLoggedIn ? LogOut : LogIn,
-    },
-    {
-      name: "Productos",
-      href: "/",
-      icon: ShirtIcon,
     },
     {
       name: "Usuarios",
@@ -46,7 +41,6 @@ export const Sidebar = () => {
     },
   ];
 
-  const indiceCorte = 3;
   return (
     <div>
       {/* Background black */}
@@ -61,7 +55,6 @@ export const Sidebar = () => {
         />
       )}
 
-      {/* Side menu */}
       <nav
         className={clsx(
           "fixed p-5 right-0 top-0 w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300",
@@ -74,6 +67,7 @@ export const Sidebar = () => {
           className="absolute top-5 right-5 cursor-pointer"
           onClick={() => closeMenu()}
         />
+        {/* Side menu */}
 
         <div className="relative mt-10">
           <Input className="peer ps-9" placeholder="Buscar..." type="email" />
@@ -81,30 +75,51 @@ export const Sidebar = () => {
             <SearchIcon size={16} strokeWidth={2} aria-hidden="true" />
           </div>
         </div>
-
-        {menuOptions.slice(0, indiceCorte).map((option) => (
+        {isAuthenticated ? (
+          <>
+            <Link
+              key={"/profile"}
+              href={"/profile"}
+              className="flex items-center p-2 my-4 hover:bg-gray-100 rounded transition-all"
+            >
+              <UserIcon />
+              <span className="ml-3">Perfil</span>
+            </Link>
+            <Button
+            size={"lg"}
+              variant={"ghost"}
+              onClick={() => signOut()}
+              className="flex items-center p-2 my-4 hover:bg-gray-100 rounded transition-all w-full justify-start text-lg"
+            >
+              <LogOut size={24}/>
+              <span className="ml-3">Salir</span>
+            </Button>
+          </>
+        ) : (
           <Link
-            key={option.name}
-            href={option.href}
+            key={"/auth/login"}
+            href={"/auth/login"}
             className="flex items-center p-2 my-4 hover:bg-gray-100 rounded transition-all"
           >
-            <option.icon />
-            <span className="ml-3">{option.name}</span>
+            <LogIn />
+            <span className="ml-3">Iniciar sesion</span>
           </Link>
-        ))}
-
-        <div className="w-full h-px bg-gray-200 my-10" />
-
-        {menuOptions.slice(indiceCorte).map((option) => (
-          <Link
-            key={option.name}
-            href={option.href}
-            className="flex items-center p-2 my-4 hover:bg-gray-100 rounded transition-all"
-          >
-            <option.icon />
-            <span className="ml-3">{option.name}</span>
-          </Link>
-        ))}
+        )}
+        {role === Role.ADMIN && (
+          <>
+            <div className="w-full h-px bg-gray-200 my-10" />
+            {adminOptions.map((option) => (
+              <Link
+                key={option.name}
+                href={option.href}
+                className="flex items-center p-2 my-4 hover:bg-gray-100 rounded transition-all"
+              >
+                <option.icon />
+                <span className="ml-3">{option.name}</span>
+              </Link>
+            ))}
+          </>
+        )}
       </nav>
     </div>
   );

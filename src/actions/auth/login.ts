@@ -10,7 +10,8 @@ export async function signInWithCredentials(credentials: {
     await signIn("credentials", {
       email: credentials.email,
       password: credentials.password,
-    }, { redirectTo: "/" }, );
+      redirect: false
+    });
 
     return true;
   } catch (error) {

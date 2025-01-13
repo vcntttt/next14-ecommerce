@@ -9,14 +9,13 @@ export const metadata : Metadata =  {
   description: "Autenticación - Teslo Shop",
 }
 
-
 export default async function AuthLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
   const session = await auth();
-  if (session?.user) redirect("/");
+  if (session) redirect("/");
   
   return (
     <html lang="es">

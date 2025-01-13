@@ -1,7 +1,6 @@
 "use client";
 import { CartProduct, Product, Size } from "@/interfaces/products";
 import { useCartStore } from "@/store/cart";
-import clsx from "clsx";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import { ProductQuantitySelector } from "./quantity-selector";
@@ -40,12 +39,8 @@ export const AddProductToCart = ({ product }: Props) => {
         onChange={setSize}
       />
       <ProductQuantitySelector quantity={quantity} onChange={setQuantity} />
-      {!size && <div>Selecciona una talla</div>}
       <Button
-        className={clsx({
-          "bg-primary text-white": size && quantity,
-          "bg-gray-200 text-gray-700": !size || !quantity,
-        })}
+      disabled={!size}
         onClick={addProductToCart}
       >
         Agregar al carrito

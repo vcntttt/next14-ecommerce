@@ -39,8 +39,8 @@ export function LoginForm({
     resolver: zodResolver(formSchema),
     defaultValues: {
       email: localStorage.getItem("rememberedEmail") ?? "",
-      password: "123456",
-      remember: false,
+      password: "123456", //! esto habria que sacarlo
+      remember: !!localStorage.getItem("rememberedEmail"),
     },
   });
 

@@ -15,6 +15,7 @@ export const getUserAddress = async (userId: string) => {
     return {
       ...rest,
       address2: address2 ? address2 : "",
+      remember: true
     };
   } catch (error) {
     console.log(error);

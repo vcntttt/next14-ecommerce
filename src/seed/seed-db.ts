@@ -4,6 +4,9 @@ import { initialData } from "./seed";
 async function main() {
   console.log("Seeding database...");
   await Promise.all([
+    prisma.orderAddress.deleteMany(),
+    prisma.orderItem.deleteMany(),
+    prisma.order.deleteMany(),
     prisma.address.deleteMany(),
     prisma.user.deleteMany(),
     prisma.productImage.deleteMany(),

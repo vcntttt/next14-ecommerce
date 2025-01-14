@@ -62,7 +62,6 @@ export function AddressForm({ dbAddress }: Props) {
       if (values.remember) {
         await setUserAddress(address, session!.user!.id!);
       } else {
-        console.log(session?.user?.id);
         await deleteUserAddress(session!.user!.id!);
       }
       router.push("/checkout");

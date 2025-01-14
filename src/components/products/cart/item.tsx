@@ -7,6 +7,10 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductQuantitySelector } from "../quantity-selector";
 
+interface Props extends CartProduct {
+  isEditable?: boolean;
+}
+
 export const ItemCart = ({
   image,
   title,
@@ -15,7 +19,8 @@ export const ItemCart = ({
   slug,
   id,
   size,
-}: CartProduct) => {
+  isEditable = false,
+}: Props) => {
   const updateProductQuantity = useCartStore(
     (state) => state.updateProductQuantity
   );
@@ -45,22 +50,42 @@ export const ItemCart = ({
         />
         <div className="w-full flex flex-col justify-between">
           <div className="flex justify-between items-center">
-            <Link href={`/product/${slug}`} className="font-semibold hover:underline">{`${size} - ${title}`}</Link>
-            <span>{formatPrice(price)}</span>
+            {isEditable ? (
+              <Link
+                href={`/product/${slug}`}
+                className="font-semibold hover:underline"
+              >{`${size} - ${title}`}</Link>
+            ) : (
+              <span className="font-semibold">{`${size} - ${title}`}</span>
+            )}
+
+            {
+              isEditable ? (
+                <span>{formatPrice(price)}</span>
+              ): (
+                
+                <span>{` ${formatPrice(price)} x ${quantity}`}</span>
+              )
+            }
+
           </div>
-          <div className="justify-start">
-            <ProductQuantitySelector
-              quantity={quantity}
-              onChange={onQuantityChange}
-            />
-          </div>
-          <Button
-            variant={"ghost"}
-            className="justify-end underline mt-3 p-0 hover:bg-white"
-            onClick={onRemoveFromCart}
-          >
-            Eliminar
-          </Button>
+          {isEditable && (
+            <>
+              <div className="justify-start">
+                <ProductQuantitySelector
+                  quantity={quantity}
+                  onChange={onQuantityChange}
+                />
+              </div>
+              <Button
+                variant={"ghost"}
+                className="justify-end underline mt-3 p-0 hover:bg-white"
+                onClick={onRemoveFromCart}
+              >
+                Eliminar
+              </Button>
+            </>
+          )}
         </div>
       </CardContent>
     </Card>

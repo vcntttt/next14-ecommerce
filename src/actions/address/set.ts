@@ -21,18 +21,15 @@ export const setUserAddress = async (address: Address, userId: string) => {
 
 const createOrReplaceAddress = async (address: Address, userId: string) => {
   try {
-    console.log({ userId });
 
     const storedAddress = await prisma.address.findUnique({
       where: { userId },
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { remember, ...rest } = address;
 
     const addressToSave = {
       userId: userId,
-      ...rest,
+      ...address,
     };
 
     if (!storedAddress) {

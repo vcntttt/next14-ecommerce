@@ -49,19 +49,20 @@ export function AddressForm({ dbAddress }: Props) {
     defaultValues: dbAddress,
   });
 
-
   useEffect(() => {
     form.reset(address);
   }, [form, address]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      setAddress(values);
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { remember, ...address } = values;
+      setAddress(address);
 
       if (values.remember) {
-        await setUserAddress(values, session!.user!.id!);
+        await setUserAddress(address, session!.user!.id!);
       } else {
-        console.log(session?.user?.id)
+        console.log(session?.user?.id);
         await deleteUserAddress(session!.user!.id!);
       }
       router.push("/checkout");

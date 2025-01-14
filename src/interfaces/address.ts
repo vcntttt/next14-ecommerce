@@ -1,6 +1,11 @@
-import { formSchema } from "@/components/checkout/address-form";
-import { z } from "zod";
 
-export interface Address extends z.infer<typeof formSchema> {
-  id?: string; // solo para que no lo marque como supertipo
+export interface Address {
+  name: string;
+  lastName: string;
+  address: string;
+  address2?: string;
+  postalCode: string;
+  city: string;
+  country: string;
+  phone: string;
 }

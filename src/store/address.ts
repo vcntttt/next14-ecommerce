@@ -1,11 +1,10 @@
-import { formSchema } from "@/components/checkout/address-form";
-import { z } from "zod";
+import { Address } from "@/interfaces/address";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface State {
-  address: z.infer<typeof formSchema>;
-  setAddress: (address: z.infer<typeof formSchema>) => void;
+  address: Address
+  setAddress: (address: Address) => void
 }
 
 export const useAddressStore = create<State>()(
@@ -20,9 +19,8 @@ export const useAddressStore = create<State>()(
         city: "",
         country: "",
         phone: "",
-        remember: false,
       },
-      setAddress: (address: z.infer<typeof formSchema>) => set({ address }),
+      setAddress: (address: Address) => set({ address }),
     }),
     {
       name: "address",

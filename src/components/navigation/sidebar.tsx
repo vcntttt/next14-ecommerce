@@ -31,7 +31,7 @@ export const Sidebar = () => {
     },
     {
       name: "Ordenes",
-      href: "/",
+      href: "/orders",
       icon: TicketIcon,
     },
     {

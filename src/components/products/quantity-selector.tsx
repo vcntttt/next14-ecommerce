@@ -3,12 +3,18 @@ import { Button } from "../ui/button";
 
 interface Props {
   quantity: number;
+  maxQuantity: number;
   onChange: (quantity: number) => void;
 }
 
-export const ProductQuantitySelector = ({ quantity, onChange }: Props) => {
+export const ProductQuantitySelector = ({ quantity, onChange, maxQuantity }: Props) => {
   function onValueChange(value: number) {
     if (quantity + value < 1) return;
+
+    if (quantity + value > maxQuantity){
+      alert("No puedes llevar mas")
+      return
+    }
     onChange(quantity + value);
   }
 

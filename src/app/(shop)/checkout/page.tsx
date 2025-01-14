@@ -11,20 +11,40 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { sleep } from "@/lib/utils";
 import { Loader2, SquarePen } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { CartProducts } from "@/components/checkout/cart-products";
+import { useCartStore } from "@/store/cart";
+import { useAddressStore } from "@/store/address";
+import { placeOrder } from "@/actions/orders/place";
+import { useRouter } from "next/navigation";
 
 export default function CheckoutPage() {
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
+  const [error, setError] = useState("");
+  const address = useAddressStore((state) => state.address);
+  const { cart, clearCart } = useCartStore();
+  const router = useRouter()
 
   async function handlePlaceOrder() {
     setIsPlacingOrder(true);
-    await sleep(2);
 
+    const products = cart.map((item) => ({
+      productId: item.id,
+      quantity: item.quantity,
+      size: item.size,
+    }));
+
+    const response = await placeOrder({ products, address });
+
+    if (!response.ok) {
+      setError(response.message);
+      return;
+    }
     setIsPlacingOrder(false);
+    clearCart()
+    router.replace(`/orders/${response.order?.id}`)
   }
 
   return (
@@ -32,7 +52,7 @@ export default function CheckoutPage() {
       <Title title="Checkout" />
       <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-10 mb-10 w-full">
         <div className="col-span-1 md:col-span-2 flex flex-col gap-y-4">
-          <CartProducts/>
+          <CartProducts />
         </div>
         <div>
           <Card className="rounded-none">
@@ -53,6 +73,11 @@ export default function CheckoutPage() {
             </CardHeader>
             <Summary />
             <CardFooter className="flex flex-col gap-y-4">
+              {error && (
+                <p className="px-4 py-2 bg-red-400 w-full text-center text-white">
+                  {error}
+                </p>
+              )}
               <Button
                 className="w-full"
                 disabled={isPlacingOrder}

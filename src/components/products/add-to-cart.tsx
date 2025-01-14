@@ -15,6 +15,8 @@ export const AddProductToCart = ({ product }: Props) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [size, setSize] = useState<Size | undefined>();
 
+  const maxStock = product.stock
+
   function addProductToCart() {
     if (!size || !quantity) return;
 
@@ -38,7 +40,7 @@ export const AddProductToCart = ({ product }: Props) => {
         selectedSize={size}
         onChange={setSize}
       />
-      <ProductQuantitySelector quantity={quantity} onChange={setQuantity} />
+      <ProductQuantitySelector quantity={quantity} onChange={setQuantity}  maxQuantity={maxStock}/>
       <Button
       disabled={!size}
         onClick={addProductToCart}

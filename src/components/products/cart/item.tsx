@@ -1,3 +1,4 @@
+'use client'
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CartProduct } from "@/interfaces/products";
@@ -73,6 +74,7 @@ export const ItemCart = ({
             <>
               <div className="justify-start">
                 <ProductQuantitySelector
+                maxQuantity={9}
                   quantity={quantity}
                   onChange={onQuantityChange}
                 />

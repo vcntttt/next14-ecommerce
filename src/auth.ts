@@ -76,6 +76,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         },
       });
       token.role = dbUser?.role ?? Role.USER;
+      token.id = dbUser?.id ?? "no-id";
 
       return token;
     },
@@ -83,6 +84,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     async session({ session, token, user }) {
       if (session && session.user) {
         session.user.role = token.role;
+        session.user.id = token.id!;
       }
 
       return session;

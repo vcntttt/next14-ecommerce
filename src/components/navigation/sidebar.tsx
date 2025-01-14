@@ -1,6 +1,6 @@
 "use client";
 import { Input } from "@/components/ui/input";
-import { useUIStore } from "@/store/ui-store";
+import { useUIStore } from "@/store/ui";
 import { Role } from "@prisma/client";
 import clsx from "clsx";
 import {

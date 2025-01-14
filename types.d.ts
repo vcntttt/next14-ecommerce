@@ -3,6 +3,7 @@ import { JWT } from "next-auth/jwt";
 
 interface IUser extends DefaultUser {
   role?: string;
+  id?: string
 }
 
 declare module "next-auth" {

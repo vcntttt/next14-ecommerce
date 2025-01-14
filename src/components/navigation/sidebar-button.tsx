@@ -1,6 +1,6 @@
 "use client";
 
-import { useUIStore } from "@/store/ui-store";
+import { useUIStore } from "@/store/ui";
 import { MenuIcon } from "lucide-react";
 
 export const SidebarButton = () => {

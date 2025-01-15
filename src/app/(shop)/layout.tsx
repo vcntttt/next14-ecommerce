@@ -2,8 +2,8 @@ import "@/app/globals.css";
 import { Header } from "@/components/navigation/header";
 import { Sidebar } from "@/components/navigation/sidebar";
 import { bodyFont } from "@/components/typography/fonts";
-import { SessionProvider } from "next-auth/react";
 import type { Metadata } from "next";
+import { Providers } from "../../components/providers";
 
 export const metadata: Metadata = {
   title: {
@@ -24,13 +24,13 @@ export default function RootLayout({
         <link rel="icon" href="/favicon.svg" />
       </head>
       <body className={`${bodyFont} antialiased max-w-7xl md:mx-auto`}>
-        <SessionProvider>
+        <Providers>
           <Header />
           <Sidebar />
           <main className="flex flex-col gap-8 py-4 md:py-10 px-4 md:px-0">
             {children}
           </main>
-        </SessionProvider>
+        </Providers>
       </body>
     </html>
   );

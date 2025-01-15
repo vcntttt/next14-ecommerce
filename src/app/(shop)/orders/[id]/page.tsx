@@ -7,11 +7,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { getOrderById } from "@/actions/orders/get";
 import { formatPrice } from "@/lib/utils";
 import { ItemCart } from "@/components/products/cart/item";
 import { redirect } from "next/navigation";
+import { PaypalButton } from "@/components/checkout/paypal-button";
 
 interface Props {
   params: {
@@ -39,7 +39,7 @@ export default async function OrderPage({ params }: Props) {
       quantity: item.quantity,
       size: item.size,
       image: item.Product.ProductImage[0].url,
-    }
+    };
   });
 
   return (
@@ -47,6 +47,17 @@ export default async function OrderPage({ params }: Props) {
       <Title title={`Orden #${params.id}`} />
       <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-10 mb-10 w-full">
         <div className="col-span-1 md:col-span-2 flex flex-col gap-y-4">
+          {order.isPaid ? (
+            <div className="bg-green-100 p-4 rounded">
+              <p className="text-green-800">Esta orden ha sido pagada</p>
+            </div>
+          ) : (
+            <div className="bg-yellow-100 p-4 rounded">
+              <p className="text-yellow-800">
+                Esta orden esta pendiente de pago
+              </p>
+            </div>
+          )}
           {items.map((item) => (
             <ItemCart key={`${item.slug}-${item.size}`} {...item} />
           ))}
@@ -107,9 +118,13 @@ export default async function OrderPage({ params }: Props) {
               </span>
             </CardContent>
             <CardFooter className="flex flex-col gap-y-4">
-              <Button className="w-full" asChild>
-                <Link href={"/"}>Volver a la tienda</Link>
-              </Button>
+              {order.isPaid ? (
+                <Link href={"/"} className="underline">
+                  Volver a la tienda
+                </Link>
+              ) : (
+                <PaypalButton amount={order.total} orderId={order.id} />
+              )}
             </CardFooter>
           </Card>
         </div>

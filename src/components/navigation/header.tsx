@@ -1,10 +1,10 @@
 import { titleFont } from "@/components/typography/fonts";
 import { genders } from "@/lib/genders";
-import { SearchIcon } from "lucide-react";
 import Link from "next/link";
 import { Cart } from "./shopping-cart";
 import { SidebarButton } from "./sidebar-button";
 import { companyName } from "@/config";
+import { Search } from "./search";
 
 export const Header = async () => {
   return (
@@ -28,7 +28,7 @@ export const Header = async () => {
         </ul>
         <div className="flex items-center gap-4">
           <Cart />
-          <SearchIcon />
+          <Search/>
           <SidebarButton />
         </div>
       </div>

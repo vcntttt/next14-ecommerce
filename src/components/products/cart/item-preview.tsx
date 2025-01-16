@@ -3,7 +3,7 @@ import { CartProduct } from "@/interfaces/products";
 import { formatPrice } from "@/lib/utils";
 import Image from "next/image";
 
-export const ItemCartPreview = ({ title, image, price, size }: CartProduct) => {
+export const ItemCartPreview = ({ title, image, price, size }: Partial<CartProduct>) => {
   return (
     <Card className="rounded-none flex gap-2">
       <Image
@@ -14,8 +14,8 @@ export const ItemCartPreview = ({ title, image, price, size }: CartProduct) => {
         className="rounded-none p-2"
       />
       <CardHeader className="p-2">
-        <CardTitle>{`${size} - ${title}`}</CardTitle>
-        <span>{formatPrice(price)}</span>
+        { !size? <CardTitle>{title}</CardTitle> : <CardTitle>{`${size} - ${title}`}</CardTitle> }
+        <span>{formatPrice(price!)}</span>
       </CardHeader>
     </Card>
   );

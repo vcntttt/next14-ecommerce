@@ -61,6 +61,7 @@ model Product {
   OrderItem    OrderItem[]
 
   @@index([gender])
+  @@index([title])
 }
 
 model ProductImage {

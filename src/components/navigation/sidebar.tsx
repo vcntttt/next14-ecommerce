@@ -1,12 +1,10 @@
 "use client";
-import { Input } from "@/components/ui/input";
 import { useUIStore } from "@/store/ui";
 import { Role } from "@prisma/client";
 import clsx from "clsx";
 import {
   LogIn,
   LogOut,
-  SearchIcon,
   ShirtIcon,
   TicketIcon,
   UserIcon,
@@ -68,13 +66,7 @@ export const Sidebar = () => {
           onClick={() => closeMenu()}
         />
         {/* Side menu */}
-
-        <div className="relative mt-10">
-          <Input className="peer ps-9" placeholder="Buscar..." type="email" />
-          <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
-            <SearchIcon size={16} strokeWidth={2} aria-hidden="true" />
-          </div>
-        </div>
+        <div className="mb-24"></div>
         {isAuthenticated ? (
           <>
             <Link

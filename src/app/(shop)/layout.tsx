@@ -3,7 +3,7 @@ import { Header } from "@/components/navigation/header";
 import { Sidebar } from "@/components/navigation/sidebar";
 import { bodyFont } from "@/components/typography/fonts";
 import type { Metadata } from "next";
-import { Providers } from "../../components/providers";
+import { Providers } from "@/components/providers";
 
 export const metadata: Metadata = {
   title: {

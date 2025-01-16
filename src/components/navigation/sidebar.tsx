@@ -26,17 +26,17 @@ export const Sidebar = () => {
   const adminOptions = [
     {
       name: "Productos",
-      href: "/",
+      href: "/admin/products",
       icon: ShirtIcon,
     },
     {
       name: "Ordenes",
-      href: "/orders",
+      href: "/admin/orders",
       icon: TicketIcon,
     },
     {
       name: "Usuarios",
-      href: "/",
+      href: "/admin/users",
       icon: UserIcon,
     },
   ];

@@ -1,6 +1,6 @@
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
-import { Title } from "../../../components/typography/title";
+import { Title } from "../../../../components/typography/title";
 import { getOrdersByUser } from "@/actions/orders/get";
 
 export default async function OrdersPage() {

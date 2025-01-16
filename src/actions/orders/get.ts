@@ -76,7 +76,18 @@ export const getOrdersByUser = async () => {
   }
 
   if (session.user.role === Role.ADMIN) {
-    const orders = await prisma.order.findMany();
+    const orders = await prisma.order.findMany({
+      include: {
+        OrderAddress: {
+          select: {
+            name: true,
+            lastName: true,
+          },
+        },
+      },
+    });
+
+
     return {
       ok: true,
       orders,

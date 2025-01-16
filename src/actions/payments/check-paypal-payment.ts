@@ -14,7 +14,7 @@ export const paypalCheckPayment = async (paypalTransactionId: string) => {
   if (!resp) return { ok: false, message: "Error al verificar el pago" };
 
   const { status, purchase_units } = resp;
-  console.log({purchase_units})
+  // console.log({purchase_units})
   const { invoice_id: orderId } = purchase_units[0];
 
   if (status !== "COMPLETED") {
@@ -101,7 +101,7 @@ const verifyPayPalPayment = async (
       ...requestOptions,
       cache: "no-store",
     }).then((r) => r.json());
-    console.log({ resp });
+    // console.log({ resp });
     return resp;
   } catch (error) {
     console.log(error);

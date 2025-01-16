@@ -6,7 +6,7 @@ import { getAllProducts } from "@/actions/products/get-all";
 export default async function ProductPage() {
   const products = await getAllProducts();
 
-  console.log("🚀 ~ products:", products);
+  // console.log("🚀 ~ products:", products);
   return (
     <div>
       <Title title="Productos" />

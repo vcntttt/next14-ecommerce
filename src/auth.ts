@@ -58,7 +58,6 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         if (!isValidPassword) {
           throw new Error("Invalid credentials.");
         }
-        console.log(user)
         // return user object with their profile data
         return user;
       },

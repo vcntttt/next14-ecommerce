@@ -47,7 +47,7 @@ export const PaypalButton = ({ orderId, amount }: Props) => {
       throw new Error("Error al guardar el transactionId");
     }
 
-    console.log("🚀 ~ PaypalButton ~ transactionId:", transactionId)
+    // console.log("🚀 ~ PaypalButton ~ transactionId:", transactionId)
     return transactionId;
   }
 

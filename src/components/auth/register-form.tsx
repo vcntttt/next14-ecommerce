@@ -31,7 +31,7 @@ export function RegisterForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const formSchema = z.object({
     name: z.string().min(2).max(50),
-    email: z.string().min(2).max(50), //todo: pasar a email
+    email: z.string().email().min(2).max(50),
     password: z.string().min(6).max(50),
   });
 
@@ -45,7 +45,7 @@ export function RegisterForm({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log("🚀 ~ onSubmit ~ values:", values);
+    // console.log("🚀 ~ onSubmit ~ values:", values);
     const response = await createUser(values);
 
     if (response?.ok) {

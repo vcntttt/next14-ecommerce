@@ -11,7 +11,7 @@ export async function getProductLiveDetails(slug: string) {
       },
       where: { slug },
     });
-    console.log("🚀 ~ getProductLiveDetails ~ product:", product);
+    // console.log("🚀 ~ getProductLiveDetails ~ product:", product);
     if (!product) return null;
 
     return {

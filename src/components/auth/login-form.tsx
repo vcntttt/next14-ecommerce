@@ -49,7 +49,7 @@ export function LoginForm({
       localStorage.setItem("rememberedEmail", values.email)
     }
 
-    console.log("🚀 ~ onSubmit ~ values:", values);
+    // console.log("🚀 ~ onSubmit ~ values:", values);
     await signInWithCredentials(values);
     window.location.replace("/");
   }

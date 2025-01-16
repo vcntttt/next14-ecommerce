@@ -6,7 +6,7 @@ import { DataTable } from "./data-table";
 export default async function UserPage() {
   const users = await getUsers();
 
-  console.log("🚀 ~ users:", users);
+  // console.log("🚀 ~ users:", users);
   return (
     <div>
       <Title title="Usuarios" />

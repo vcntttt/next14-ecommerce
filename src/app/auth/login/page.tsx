@@ -1,4 +1,5 @@
 import { LoginForm } from "@/components/auth/login-form";
+import { companyName } from "@/config";
 import { ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
@@ -10,7 +11,7 @@ export default function LoginPage() {
           <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
             <ShoppingCart className="size-4" />
           </div>
-          Teslo Shop
+          {companyName}
         </Link>
         <LoginForm />
       </div>

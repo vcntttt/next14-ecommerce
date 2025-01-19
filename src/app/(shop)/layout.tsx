@@ -21,9 +21,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <head>
-        <link rel="icon" href="/favicon.svg" />
-      </head>
       <body className={`${bodyFont}`}>
         <div className="max-w-7xl mx-auto">
           <Providers>

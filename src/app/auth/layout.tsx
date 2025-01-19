@@ -20,9 +20,6 @@ export default async function AuthLayout({
   
   return (
     <html lang="es">
-      <head>
-        <link rel="icon" href="/favicon.svg" />
-      </head>
       <body className={`${bodyFont} antialiased`}>
         <main className="flex flex-col gap-8 ">
           {children}

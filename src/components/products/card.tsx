@@ -9,7 +9,8 @@ export const ProductCard = ({ title, images, price, slug }: Product) => {
       href={`/product/${slug}`}
       className="rounded-md fade-in overflow-hidden"
     >
-      <ProductImage images={images} title={title} />
+        <ProductImage images={images} title={title} />
+
       <div className="flex flex-col gap-2 py-2">
         <h3 className="hover:underline">{title}</h3>
         <span>

@@ -3,7 +3,7 @@ import { formatPrice } from "@/lib/utils";
 import { Product } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
-import Image from "next/image";
+import { ImageWrapper } from "@/components/products/image-wrapper";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -23,12 +23,12 @@ export const columns: ColumnDef<Product>[] = [
 
       return (
         <Link href={`/product/${row.getValue("slug")}`}>
-          <Image
-            src={`/products/${imgUrl}`}
+          <ImageWrapper
+            src={imgUrl}
             alt={row.getValue("title")}
             width={100}
             height={100}
-          ></Image>
+          />
         </Link>
       );
     },

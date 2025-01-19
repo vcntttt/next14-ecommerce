@@ -1,3 +1,6 @@
+import { formSchema } from "@/components/products/admin/product-form";
+import { z } from "zod";
+
 export interface Product {
   id: string;
   description: string;
@@ -25,3 +28,11 @@ export interface CartProduct {
   quantity: number;
   slug: string;
 }
+
+export interface ProductWithImage {
+  id: string;
+  url: string;
+  productId: string;
+}
+
+export type EditableProduct = z.infer<typeof formSchema>;

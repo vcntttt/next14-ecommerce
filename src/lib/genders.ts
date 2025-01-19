@@ -11,4 +11,8 @@ export const genders = [
     url: "kid",
     label: "Kids",
   },
+  {
+    url: "unisex",
+    label: "Unisex",
+  },
 ]

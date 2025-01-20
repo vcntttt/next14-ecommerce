@@ -9,6 +9,7 @@ export async function getProductBySlug(slug: string) {
         ProductImage: {
           select: {
             url: true,
+            id: true,
           },
         },
       },

@@ -29,6 +29,7 @@ import { createOrUpdateProduct } from "@/actions/products/admin/createOrUpdate";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useRouter } from "next/navigation";
 import { ImageWrapper } from "@/components/products/image-wrapper";
+import { deleteProductImage } from "@/actions/products/admin/delete-image";
 
 export const formSchema = z.object({
   id: z.string().uuid().optional().nullable(),
@@ -47,12 +48,7 @@ export const formSchema = z.object({
   sizes: z.coerce.string().transform((val) => val.split(",")),
   tags: z.string(),
   gender: z.nativeEnum(Gender),
-  // images: z
-  //   .instanceof(FileList)
-  //   .refine((fileList) => fileList.length > 0, {
-  //     message: "Debe contener al menos un archivo",
-  //   })
-  //   .optional(),
+  images: z.any().optional(),
 });
 
 interface Props {
@@ -67,7 +63,7 @@ export const ProductForm = ({ categories, product }: Props) => {
       ...product,
       tags: product.tags?.join(","),
       sizes: product.sizes ?? [],
-      // images: undefined,
+      images: undefined,
     },
   });
 
@@ -75,10 +71,20 @@ export const ProductForm = ({ categories, product }: Props) => {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
+      if (values.images) {
+        const imgData = new FormData();
+
+        Array.from(values.images).forEach((file) => {
+          imgData.append("images", file as Blob);
+        });
+
+        values.images = imgData;
+      }
+
       const response = await createOrUpdateProduct(values);
-      
+
       if (!response) {
-        throw new Error('No se recibió respuesta del servidor');
+        throw new Error("No se recibió respuesta del servidor");
       }
 
       const { ok, product: updatedProduct, message } = response;
@@ -89,9 +95,10 @@ export const ProductForm = ({ categories, product }: Props) => {
 
       router.replace(`/admin/products/${updatedProduct?.slug}`);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
+
   const sizes = ["XS", "S", "M", "L", "XL", "XXL"];
 
   return (
@@ -284,7 +291,7 @@ export const ProductForm = ({ categories, product }: Props) => {
             )}
           />
 
-          {/* <FormField
+          <FormField
             control={form.control}
             name="images"
             render={({ field }) => (
@@ -302,29 +309,35 @@ export const ProductForm = ({ categories, product }: Props) => {
                 <FormMessage />
               </FormItem>
             )}
-          /> */}
+          />
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-            {product.ProductImage?.map((image) => (
-              <div key={image.url} className="relative">
-                <Button
-                  variant="destructive"
-                  className="absolute top-2 right-2 h-6 w-6 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center"
-                  onClick={() =>
-                    console.log(`Eliminar imagen con ID: ${image.id}`)
-                  }
-                >
-                  <TrashIcon />
-                </Button>
-                <ImageWrapper
-                  alt={product.title ?? ""}
-                  src={image.url}
-                  width={400}
-                  height={400}
-                  className="rounded-t shadow-md"
-                />
-              </div>
-            ))}
+            {product.ProductImage?.map((image) => {
+              console.log(image)
+              return (
+                <div key={image.url} className="relative">
+                  {image.url.startsWith("http") && (
+                    <Button
+                      variant="destructive"
+                      className="absolute top-2 right-2 h-6 w-6 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center justify-center"
+                      onClick={() => deleteProductImage(image.id, image.url)}
+                    >
+                      <TrashIcon />
+                    </Button>
+                  )}
+                  <ImageWrapper
+                    alt={product.title ?? ""}
+                    src={image.url}
+                    width={400}
+                    height={400}
+                    className="rounded-t shadow-md"
+                  />
+                </div>
+              );
+            })}
           </div>
+          <p className="italic text-sm text-muted-foreground">
+            *Sólo se pueden borrar imágenes que se encuentren en la nube
+          </p>
         </div>
         <Button type="submit" className="w-full">
           Continuar

@@ -20,11 +20,13 @@ export async function setTransactionId({ transactionId, orderId }: Props) {
 
     return {
       ok: true,
+      message: "Pago asignado a la orden correctamente",
       order,
     };
   } catch (error) {
     return {
       ok: false,
+      message: "No se pudo asignar el pago a la orden",
       error,
     };
   }

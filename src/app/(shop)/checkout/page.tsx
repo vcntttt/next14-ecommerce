@@ -19,6 +19,7 @@ import { useCartStore } from "@/store/cart";
 import { useAddressStore } from "@/store/address";
 import { placeOrder } from "@/actions/orders/place";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 export default function CheckoutPage() {
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
@@ -40,9 +41,12 @@ export default function CheckoutPage() {
 
     if (!response.ok) {
       setError(response.message);
+      toast.error(response.message);
       return;
     }
     setIsPlacingOrder(false);
+    toast.success(response.message);
+    toast.loading("Redireccionando...", { duration: 1000 });
     clearCart()
     router.replace(`/orders/${response.order?.id}`)
   }

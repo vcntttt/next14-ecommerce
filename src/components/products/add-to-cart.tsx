@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Button } from "../ui/button";
 import { ProductQuantitySelector } from "./quantity-selector";
 import { ProductSizeSelector } from "./size-selector";
+import { toast } from "sonner";
 
 interface Props {
   product: Product;
@@ -15,22 +16,28 @@ export const AddProductToCart = ({ product }: Props) => {
   const [quantity, setQuantity] = useState<number>(1);
   const [size, setSize] = useState<Size | undefined>();
 
-  const maxStock = product.stock
+  const maxStock = product.stock;
 
   function addProductToCart() {
-    if (!size || !quantity) return;
+    try {
+      if (!size || !quantity) return;
 
-    const productToCart: CartProduct = {
-      id: product.id,
-      title: product.title,
-      slug: product.slug,
-      price: product.price,
-      image: product.images[1],
-      size,
-      quantity,
-    };
+      const productToCart: CartProduct = {
+        id: product.id,
+        title: product.title,
+        slug: product.slug,
+        price: product.price,
+        image: product.images[1],
+        size,
+        quantity,
+      };
 
-    addToCart(productToCart);
+      addToCart(productToCart);
+      toast.success(`${quantity} producto(s) agregado(s) al carrito`);
+    } catch (error) {
+      console.error(error);
+      toast.error("Error al agregar al carrito");
+    }
   }
 
   return (
@@ -40,11 +47,12 @@ export const AddProductToCart = ({ product }: Props) => {
         selectedSize={size}
         onChange={setSize}
       />
-      <ProductQuantitySelector quantity={quantity} onChange={setQuantity}  maxQuantity={maxStock}/>
-      <Button
-      disabled={!size}
-        onClick={addProductToCart}
-      >
+      <ProductQuantitySelector
+        quantity={quantity}
+        onChange={setQuantity}
+        maxQuantity={maxStock}
+      />
+      <Button disabled={!size} onClick={addProductToCart}>
         Agregar al carrito
       </Button>
     </div>

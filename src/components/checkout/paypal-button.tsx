@@ -10,6 +10,7 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { setTransactionId } from "@/actions/payments/set-transaction-id";
 import { paypalCheckPayment } from "@/actions/payments/check-paypal-payment";
+import { toast } from "sonner";
 
 interface Props {
   orderId: string;
@@ -44,7 +45,8 @@ export const PaypalButton = ({ orderId, amount }: Props) => {
     });
 
     if (!response.ok) {
-      throw new Error("Error al guardar el transactionId");
+      toast.error(response.message);
+      throw new Error(response.message);
     }
 
     // console.log("🚀 ~ PaypalButton ~ transactionId:", transactionId)
@@ -53,10 +55,18 @@ export const PaypalButton = ({ orderId, amount }: Props) => {
 
   async function onAprove(data: OnApproveData, actions: OnApproveActions) {
     const details = await actions.order?.capture();
-    if (!details?.id) return;
+    if (!details?.id) {
+      toast.error("No se pudo encontrar el pago");
+      return;
+    }
 
     const { ok } = await paypalCheckPayment(details.id);
-    if (!ok) throw new Error("Error al verificar el pago");
+    if (!ok) {
+      toast.error("Error al verificar el pago");
+      throw new Error("Error al verificar el pago");
+    }
+
+    toast.success("Pago verificado correctamente");
   }
 
   return isPending ? (

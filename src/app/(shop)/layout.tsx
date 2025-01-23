@@ -5,6 +5,7 @@ import { bodyFont } from "@/components/typography/fonts";
 import type { Metadata } from "next";
 import { Providers } from "@/components/providers";
 import { companyName } from "@/config";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: {
@@ -29,6 +30,7 @@ export default function RootLayout({
             <main className="flex flex-col gap-8 py-4 md:py-10 px-4 md:px-0">
               {children}
             </main>
+            <Toaster richColors/>
           </Providers>
         </div>
       </body>

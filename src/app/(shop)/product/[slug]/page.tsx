@@ -7,7 +7,7 @@ import { ProductSlideshow } from "@/components/products/slideshow/slideshow";
 import { titleFont } from "@/components/typography/fonts";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { AddProductToCart } from '../../../../components/products/add-to-cart';
+import { AddProductToCart } from '@/components/products/add-to-cart';
 
 interface Props {
   params: {
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const product = await getProductBySlug(slug);
 
   return {

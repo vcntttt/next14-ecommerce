@@ -8,6 +8,7 @@ export const setUserAddress = async (address: Address, userId: string) => {
 
     return {
       ok: true,
+      message: "Dirección guardada correctamente",
       address: newAddress,
     };
   } catch (error) {
@@ -21,15 +22,16 @@ export const setUserAddress = async (address: Address, userId: string) => {
 
 const createOrReplaceAddress = async (address: Address, userId: string) => {
   try {
-
     const storedAddress = await prisma.address.findUnique({
       where: { userId },
     });
 
+    const { country, ...rest } = address;
 
     const addressToSave = {
       userId: userId,
-      ...address,
+      countryId: country,
+      ...rest,
     };
 
     if (!storedAddress) {

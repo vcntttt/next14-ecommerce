@@ -86,7 +86,7 @@ export default async function OrderPage({ params }: Props) {
 
               <span>Ciudad </span>
               <span className="text-right">
-                {address.city}, {address.country}
+                {address.city}, {address.countryId}
               </span>
 
               <span>Codigo Postal </span>

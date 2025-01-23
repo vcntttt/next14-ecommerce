@@ -6,6 +6,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  engineType = "binary"
 }
 
 datasource db {
@@ -130,6 +131,13 @@ model VerificationToken {
   @@id([identifier, token])
 }
 
+model Country {
+  id           String         @id
+  name         String
+  Address      Address[]
+  OrderAddress OrderAddress[]
+}
+
 model Address {
   id         String  @id @default(uuid())
   name       String
@@ -138,11 +146,13 @@ model Address {
   address2   String?
   postalCode String
   city       String
-  country    String
   phone      String
 
   user   User   @relation(fields: [userId], references: [id])
   userId String @unique
+
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId String
 }
 
 model Order {
@@ -157,10 +167,10 @@ model Order {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user           User         @relation(fields: [userId], references: [id])
-  userId         String
-  OrderItem      OrderItem[]
-  OrderAddress   OrderAddress?
+  user         User          @relation(fields: [userId], references: [id])
+  userId       String
+  OrderItem    OrderItem[]
+  OrderAddress OrderAddress?
 
   transactionId String?
 }
@@ -186,9 +196,11 @@ model OrderAddress {
   address2   String?
   postalCode String
   city       String
-  country    String
   phone      String
 
   order   Order  @relation(fields: [orderId], references: [id])
   orderId String @unique
+
+  country   Country @relation(fields: [countryId], references: [id])
+  countryId String
 }

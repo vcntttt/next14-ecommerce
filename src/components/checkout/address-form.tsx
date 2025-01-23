@@ -21,6 +21,15 @@ import { setUserAddress } from "@/actions/address/set";
 import { useRouter } from "next/navigation";
 import { deleteUserAddress } from "@/actions/address/delete";
 import { Address } from "@/interfaces/address";
+import { Country } from "@prisma/client";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { toast } from "sonner";
 
 export const formSchema = z.object({
   name: z.string(),
@@ -35,10 +44,11 @@ export const formSchema = z.object({
 });
 
 interface Props {
+  countries: Country[];
   dbAddress?: Address | undefined;
 }
 
-export function AddressForm({ dbAddress }: Props) {
+export function AddressForm({ dbAddress, countries }: Props) {
   const router = useRouter();
   const { address, setAddress } = useAddressStore();
 
@@ -55,18 +65,20 @@ export function AddressForm({ dbAddress }: Props) {
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const { remember, ...address } = values;
       setAddress(address);
 
-      if (values.remember) {
-        await setUserAddress(address, session!.user!.id!);
+      if (remember) {
+        const { message } = await setUserAddress(address, session!.user!.id!);
+        toast.success(message);
       } else {
         await deleteUserAddress(session!.user!.id!);
+        toast.success("Dirección eliminada correctamente");
       }
       router.push("/checkout");
     } catch (error) {
       console.log(error);
+      toast.error("No se pudo guardar la dirección");
     }
   }
 
@@ -198,14 +210,20 @@ export function AddressForm({ dbAddress }: Props) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>País</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder=""
-                  type=""
-                  {...field}
-                  className="bg-blue-100/40"
-                />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger className="bg-blue-100/40">
+                    <SelectValue placeholder="Selecciona un país" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {countries.map((country) => (
+                    <SelectItem key={country.id} value={country.id}>
+                      {country.name}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
 
               <FormMessage />
             </FormItem>

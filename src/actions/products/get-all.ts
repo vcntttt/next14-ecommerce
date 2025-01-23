@@ -13,13 +13,18 @@ export async function getAllProducts() {
           },
         },
       },
+      cacheStrategy: {
+        ttl: 60 * 60 * 24 * 7,
+        tags: ["products"],
+      },
     });
+
     return products.map((product) => {
       return {
         ...product,
         images: product.ProductImage.map((image) => image.url),
       };
-    })
+    });
   } catch (error) {
     console.log(error);
   }

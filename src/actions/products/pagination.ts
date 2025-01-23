@@ -33,22 +33,21 @@ export const getPaginatedProducts = async ({
             },
           },
         },
+        cacheStrategy: {
+          ttl: 60 * 60 * 24 * 7,
+          tags: ["products"],
+        },
       }),
       prisma.product.count({
         where: {
           gender,
         },
+        cacheStrategy: {
+          ttl: 60 * 60 * 24 * 7,
+          tags: ["products"],
+        },
       }),
     ]);
-
-    // await prisma.user.findMany({
-    //   where: {
-    //     email: {
-    //       contains: "alice@prisma.io",
-    //     },
-    //   },
-    //   cacheStrategy: { ttl: 60 },
-    // });
 
     const totalPages = Math.ceil(totalCount / take);
 

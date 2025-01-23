@@ -10,8 +10,11 @@ export async function getProductLiveDetails(slug: string) {
        stock: true
       },
       where: { slug },
+      cacheStrategy: {
+        ttl: 60 * 60 * 24,
+        tags: [`product-details-${slug}`],
+      },
     });
-    // console.log("🚀 ~ getProductLiveDetails ~ product:", product);
     if (!product) return null;
 
     return {

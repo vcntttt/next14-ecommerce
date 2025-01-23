@@ -29,6 +29,12 @@ export const deleteProductImage = async (imageId: string, imageUrl: string) => {
         },
       },
     });
+    await prisma.$accelerate.invalidate({
+      tags: [
+        "products",
+        `product-${deletedImage.product.slug}`,
+      ],
+    });
 
     revalidatePath(`/admin/products`);
     revalidatePath(`/admin/products/${deletedImage.product.slug}`);

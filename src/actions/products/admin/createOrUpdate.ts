@@ -51,10 +51,9 @@ export const createOrUpdateProduct = async (product: EditableProduct) => {
         });
       }
 
-        if (imgData && imgData.getAll("images")) {
-          // [https://url.jpg, https://url.jpg]
-          const images = await uploadImages(imgData.getAll("images") as File[]);
-          if (!images) {
+      if (imgData && imgData.getAll("images")) {
+        const images = await uploadImages(imgData.getAll("images") as File[]);
+        if (!images) {
           throw new Error("No se pudo cargar las imágenes, rollingback");
         }
 
@@ -65,7 +64,7 @@ export const createOrUpdateProduct = async (product: EditableProduct) => {
           })),
         });
       }
-      
+
       return { product };
     });
 
@@ -81,6 +80,14 @@ export const createOrUpdateProduct = async (product: EditableProduct) => {
       message: "Error al crear o actualizar el producto",
     };
   } finally {
+    await prisma.$accelerate.invalidate({
+      tags: [
+        "products",
+        `product-${product.slug}`,
+        `product-details-${product.slug}`,
+      ],
+    });
+
     revalidatePath("/admin/products");
     revalidatePath(`/admin/products/${product.slug}`);
     revalidatePath(`/products/${product.slug}`);

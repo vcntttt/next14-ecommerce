@@ -9,7 +9,7 @@ export default async function OrdersPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <Title title="Ordenes" />
+      <Title title="Mis Ordenes" />
       <DataTable columns={columns} data={orders ?? []} />
     </div>
   );

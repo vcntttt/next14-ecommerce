@@ -41,6 +41,10 @@ export const getOrderById = async (id: string) => {
           },
         },
       },
+      cacheStrategy: {
+        ttl: 60 * 60 * 24,
+        tags: [`order-${id}`],
+      },
     });
 
     if (!order) throw `${id} no existe`;
@@ -75,25 +79,6 @@ export const getOrdersByUser = async () => {
     };
   }
 
-  if (session.user.role === Role.ADMIN) {
-    const orders = await prisma.order.findMany({
-      include: {
-        OrderAddress: {
-          select: {
-            name: true,
-            lastName: true,
-          },
-        },
-      },
-    });
-
-
-    return {
-      ok: true,
-      orders,
-    };
-  }
-
   const orders = await prisma.order.findMany({
     where: {
       userId: session.user.id,
@@ -106,10 +91,52 @@ export const getOrdersByUser = async () => {
         },
       },
     },
+    cacheStrategy: {
+      ttl: 60 * 60 * 24,
+      tags: [`orders-user-${session.user.id}`],
+    },
   });
 
   return {
     ok: true,
     orders: orders,
+  };
+};
+
+export const getOrdersByAdmin = async () => {
+  const session = await auth();
+
+  if (!session?.user) {
+    return {
+      ok: false,
+      message: "Debe de estar autenticado",
+    };
+  }
+
+  if (session.user.role !== Role.ADMIN) {
+    return {
+      ok: false,
+      message: "No tienes permisos para acceder a esta página",
+    };
+  }
+
+  const orders = await prisma.order.findMany({
+    include: {
+      OrderAddress: {
+        select: {
+          name: true,
+          lastName: true,
+        },
+      },
+    },
+    cacheStrategy: {
+      ttl: 60 * 60 * 24,
+      tags: ["orders"],
+    },
+  });
+
+  return {
+    ok: true,
+    orders,
   };
 };

@@ -132,6 +132,10 @@ export async function placeOrder({ products, address }: Props) {
       };
     });
 
+    await prisma.$accelerate.invalidate({
+      tags: ["orders", `orders-user-${userId}`],
+    });
+
     return {
       ok: true,
       order: prismaTx.order,

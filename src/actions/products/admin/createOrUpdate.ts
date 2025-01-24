@@ -83,8 +83,9 @@ export const createOrUpdateProduct = async (product: EditableProduct) => {
     await prisma.$accelerate.invalidate({
       tags: [
         "products",
-        `product-${product.slug}`,
-        `product-details-${product.slug}`,
+        `products_${product.gender}`,
+        `product_${product.slug}`,
+        `product_details_${product.slug}`,
       ],
     });
 

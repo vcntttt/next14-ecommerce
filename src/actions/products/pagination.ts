@@ -35,7 +35,7 @@ export const getPaginatedProducts = async ({
         },
         cacheStrategy: {
           ttl: 60 * 60 * 24 * 7,
-          tags: ["products"],
+          tags: ["products", `products_${gender}`],
         },
       }),
       prisma.product.count({
@@ -44,7 +44,7 @@ export const getPaginatedProducts = async ({
         },
         cacheStrategy: {
           ttl: 60 * 60 * 24 * 7,
-          tags: ["products"],
+          tags: ["products", `products_${gender}`],
         },
       }),
     ]);

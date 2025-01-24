@@ -6,13 +6,13 @@ export async function getProductLiveDetails(slug: string) {
   try {
     const product = await prisma.product.findFirst({
       select: {
-       price: true,
-       stock: true
+        price: true,
+        stock: true,
       },
       where: { slug },
       cacheStrategy: {
         ttl: 60 * 60 * 24,
-        tags: [`product-details-${slug}`],
+        tags: [`product_details_${slug}`],
       },
     });
     if (!product) return null;

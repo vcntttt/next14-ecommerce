@@ -25,6 +25,7 @@ export const deleteProductImage = async (imageId: string, imageUrl: string) => {
         product: {
           select: {
             slug: true,
+            gender: true,
           },
         },
       },
@@ -32,7 +33,8 @@ export const deleteProductImage = async (imageId: string, imageUrl: string) => {
     await prisma.$accelerate.invalidate({
       tags: [
         "products",
-        `product-${deletedImage.product.slug}`,
+        `products_${deletedImage.product.gender}`,
+        `product_${deletedImage.product.slug}`,
       ],
     });
 

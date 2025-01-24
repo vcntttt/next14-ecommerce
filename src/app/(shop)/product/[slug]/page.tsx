@@ -1,5 +1,4 @@
-export const revalidate = 60 * 60 * 24 * 7;
-
+import { cacheConfig } from "@/config";
 import { getProductBySlug } from "@/actions/products/get-product-by-slug";
 import { ProductLiveDetails } from "@/components/products/live-details";
 import { ProductMobileSlideshow } from "@/components/products/slideshow/mobile-slideshow";
@@ -8,6 +7,7 @@ import { titleFont } from "@/components/typography/fonts";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AddProductToCart } from '@/components/products/add-to-cart';
+export const revalidate = cacheConfig.week;
 
 interface Props {
   params: {

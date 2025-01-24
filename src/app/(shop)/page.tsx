@@ -1,8 +1,9 @@
-export const revalidate = 60 * 60 * 24;
+import { cacheConfig } from "@/config";
 import { getPaginatedProducts } from "@/actions/products/pagination";
 import { ProductsGrid } from "@/components/products/grid";
 import { ProductsPagination } from "@/components/products/pagination";
 import { Title } from "@/components/typography/title";
+export const revalidate = cacheConfig.week;
 
 interface Props {
   searchParams: {

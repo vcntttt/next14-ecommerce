@@ -1,5 +1,4 @@
-export const revalidate = 60;
-
+import { cacheConfig } from "@/config";
 import { getPaginatedProducts } from "@/actions/products/pagination";
 import { ProductsGrid } from "@/components/products/grid";
 import { ProductsPagination } from "@/components/products/pagination";
@@ -7,6 +6,7 @@ import { genders } from "@/lib/genders";
 import { Gender } from "@prisma/client";
 import { Metadata } from "next";
 import { Title } from "../../../../components/typography/title";
+export const revalidate = cacheConfig.week;
 
 interface Props {
   params: {

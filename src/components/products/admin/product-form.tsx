@@ -30,6 +30,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useRouter } from "next/navigation";
 import { ImageWrapper } from "@/components/products/image-wrapper";
 import { deleteProductImage } from "@/actions/products/admin/delete-image";
+import { toast } from "sonner";
 
 export const formSchema = z.object({
   id: z.string().uuid().optional().nullable(),
@@ -73,29 +74,28 @@ export const ProductForm = ({ categories, product }: Props) => {
     try {
       if (values.images) {
         const imgData = new FormData();
-
         Array.from(values.images).forEach((file) => {
           imgData.append("images", file as Blob);
         });
-
         values.images = imgData;
       }
 
       const response = await createOrUpdateProduct(values);
 
-      if (!response) {
-        throw new Error("No se recibió respuesta del servidor");
+      if (!response.ok) {
+        toast.error(response.message ?? 'Error al guardar el producto');
+        return;
       }
 
-      const { ok, product: updatedProduct, message } = response;
-
-      if (!ok) {
-        throw new Error(message);
+      toast.success(response.message);
+      
+      if (response.product?.slug) {
+        router.replace(`/admin/products/${response.product.slug}`);
       }
 
-      router.replace(`/admin/products/${updatedProduct?.slug}`);
     } catch (error) {
       console.error(error);
+      toast.error('Ocurrió un error inesperado');
     }
   }
 
@@ -312,7 +312,7 @@ export const ProductForm = ({ categories, product }: Props) => {
           />
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {product.ProductImage?.map((image) => {
-              console.log(image)
+              console.log(image);
               return (
                 <div key={image.url} className="relative">
                   {image.url.startsWith("http") && (
@@ -340,7 +340,7 @@ export const ProductForm = ({ categories, product }: Props) => {
           </p>
         </div>
         <Button type="submit" className="w-full">
-          Continuar
+          Guardar
         </Button>
       </form>
     </Form>

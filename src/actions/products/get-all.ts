@@ -13,10 +13,10 @@ export async function getAllProducts() {
           },
         },
       },
-      cacheStrategy: {
-        ttl: 60 * 60 * 24 * 7,
-        tags: ["products"],
-      },
+      // cacheStrategy: {
+      //   ttl: 60 * 60 * 24 * 7,
+      //   tags: ["products"],
+      // },
     });
 
     return products.map((product) => {

@@ -8,10 +8,10 @@ export const getCountries = async () => {
       orderBy: {
         name: "asc",
       },
-      cacheStrategy: {
-        ttl: 60 * 60 * 24 * 30,
-        tags: ["countries"],
-      },
+      // cacheStrategy: {
+      //   ttl: 60 * 60 * 24 * 30,
+      //   tags: ["countries"],
+      // },
     });
 
     return countries;

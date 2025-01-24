@@ -9,11 +9,10 @@ import { v2 as cloudinary } from "cloudinary";
 cloudinary.config(process.env.CLOUDINARY_URL ?? "");
 
 export const createOrUpdateProduct = async (product: EditableProduct) => {
-  console.log(product);
   product.slug = product.slug.toLowerCase().replace(/ /g, "-").trim();
 
   const { id, images: imgData, ...productData } = product;
-
+  let message: string;
   try {
     const prismaTx = await prisma.$transaction(async () => {
       let product: Product;
@@ -23,7 +22,7 @@ export const createOrUpdateProduct = async (product: EditableProduct) => {
 
       if (id) {
         // si tiene id, es un producto existente
-
+        message = "Producto actualizado correctamente";
         product = await prisma.product.update({
           where: { id },
           data: {
@@ -38,6 +37,7 @@ export const createOrUpdateProduct = async (product: EditableProduct) => {
         });
       } // si no tiene id, es un producto nuevo
       else {
+        message = "Producto creado correctamente";
         product = await prisma.product.create({
           data: {
             ...productData,
@@ -65,12 +65,13 @@ export const createOrUpdateProduct = async (product: EditableProduct) => {
         });
       }
 
-      return { product };
+      return { product, message };
     });
 
     return {
       ok: true,
       product: prismaTx.product,
+      message: prismaTx.message,
     };
   } catch (error) {
     console.log(error);
@@ -80,18 +81,18 @@ export const createOrUpdateProduct = async (product: EditableProduct) => {
       message: "Error al crear o actualizar el producto",
     };
   } finally {
-    await prisma.$accelerate.invalidate({
-      tags: [
-        "products",
-        `products_${product.gender}`,
-        `product_${product.slug}`,
-        `product_details_${product.slug}`,
-      ],
-    });
+    // await prisma.$accelerate.invalidate({
+    //   tags: [
+    //     "products",
+    //     `products_${product.gender}`,
+    //     `product_${product.slug}`,
+    //     `product_details_${product.slug}`,
+    //   ],
+    // });
 
     revalidatePath("/admin/products");
     revalidatePath(`/admin/products/${product.slug}`);
-    revalidatePath(`/products/${product.slug}`);
+    revalidatePath(`/product/${product.slug}`);
   }
 };
 

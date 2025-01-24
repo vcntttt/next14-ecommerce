@@ -91,10 +91,10 @@ export const getOrdersByUser = async () => {
         },
       },
     },
-    cacheStrategy: {
-      ttl: 60 * 60 * 24,
-      tags: [`orders-user-${session.user.id}`],
-    },
+    // cacheStrategy: {
+    //   ttl: 60 * 60 * 24,
+    //   tags: [`orders-user-${session.user.id}`],
+    // },
   });
 
   return {

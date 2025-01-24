@@ -30,13 +30,13 @@ export const deleteProductImage = async (imageId: string, imageUrl: string) => {
         },
       },
     });
-    await prisma.$accelerate.invalidate({
-      tags: [
-        "products",
-        `products_${deletedImage.product.gender}`,
-        `product_${deletedImage.product.slug}`,
-      ],
-    });
+    // await prisma.$accelerate.invalidate({
+    //   tags: [
+    //     "products",
+    //     `products_${deletedImage.product.gender}`,
+    //     `product_${deletedImage.product.slug}`,
+    //   ],
+    // });
 
     revalidatePath(`/admin/products`);
     revalidatePath(`/admin/products/${deletedImage.product.slug}`);

@@ -15,10 +15,10 @@ export async function getProductBySlug(slug: string) {
         },
       },
       where: { slug },
-      cacheStrategy: {
-        ttl: 60 * 60 * 24 * 7,
-        tags: [`product_${slug}`],
-      },
+      // cacheStrategy: {
+      //   ttl: 60 * 60 * 24 * 7,
+      //   tags: [`product_${slug}`],
+      // },
     });
 
     if (!product) return null;

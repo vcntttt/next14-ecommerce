@@ -8,10 +8,10 @@ export const getCategories = async () => {
       orderBy: {
         name: "asc",
       },
-      cacheStrategy: {
-        ttl: 60 * 60 * 24,
-        tags: ["categories"],
-      },
+      // cacheStrategy: {
+      //   ttl: 60 * 60 * 24,
+      //   tags: ["categories"],
+      // },
     });
 
     return categories;

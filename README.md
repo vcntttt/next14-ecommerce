@@ -2,6 +2,8 @@
 
 Ecommerce basada en "Teslo Shop", proyecto desarrollado en el curso de Next.js de Fernando Herrera.
 
+![demo](public/demo.png)
+
 <!-- ## Features extras
 
 - Busqueda indexada de productos

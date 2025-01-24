@@ -10,6 +10,7 @@ export async function getProductBySlug(slug: string) {
           select: {
             url: true,
             id: true,
+            productId: true,
           },
         },
       },

@@ -1,6 +1,7 @@
 "use server";
 
 import { prisma } from "@/lib/prisma";
+// import { sleep } from "@/lib/utils";
 import { Gender } from "@prisma/client";
 
 interface PaginationOptions {
@@ -18,6 +19,7 @@ export const getPaginatedProducts = async ({
   if (currentPage < 1) currentPage = 1;
 
   try {
+    // await sleep(2)
     const [products, totalCount] = await Promise.all([
       prisma.product.findMany({
         where: {

@@ -10,7 +10,7 @@ export const Header = async () => {
   return (
     <nav className="py-4 sticky top-0 z-10 bg-white px-4 md:px-0">
       <div className="max-w-7xl mx-auto flex justify-between items-center">
-        <Link href="/" className={`${titleFont} text-xl font-bold`}>
+        <Link href="/" className={`${titleFont} text-xl font-bold pr-5`}>
           {companyName}
         </Link>
 

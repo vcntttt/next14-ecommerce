@@ -22,6 +22,21 @@ export const Search = () => {
   const [title, setTitle] = useState("");
   const [products, setProducts] = useState<AuxiliarProduct[]>([]);
   const [filteredResults, setFilteredResults] = useState<AuxiliarProduct[]>([]);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === "k") {
+        event.preventDefault();
+        setOpen((prev) => !prev);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -43,11 +58,17 @@ export const Search = () => {
 
   return (
     <div>
-      <Dialog>
-        <DialogTrigger asChild className="cursor-pointer">
-          <SearchIcon />
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger asChild>
+          <button className="flex items-center gap-2 py-2 rounded-md">
+            <SearchIcon/>
+            {/* <span className="text-sm">Buscar productos...</span> */}
+            <span className="text-xs bg-zinc-100 px-2 py-1 rounded-md text-zinc-800">
+              Ctrl + K
+            </span>
+          </button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-6xl h-[500px] overflow-y-auto pt-8">
+        <DialogContent className="sm:max-w-6xl h-[500px] overflow-y-auto pt-8 fade-in-10 fade-out-10">
           {/* <DialogTitle></DialogTitle> */}
           <DialogHeader>
             <DialogDescription className="sr-only">

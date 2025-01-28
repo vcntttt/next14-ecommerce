@@ -35,12 +35,14 @@ export function LoginForm({
     remember: z.boolean(),
   });
 
+  const localEmail = localStorage.getItem("rememberedEmail") ?? "";
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email: localStorage.getItem("rememberedEmail") ?? "",
-      password: "123456", //! esto habria que sacarlo
-      remember: !!localStorage.getItem("rememberedEmail"),
+      email: localEmail,
+      password: "",
+      remember: !!localEmail,
     },
   });
 

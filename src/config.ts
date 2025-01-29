@@ -1,4 +1,4 @@
-export const companyName = "Acme Shop"
+export const companyName = "Teslo Shop"
 
 // Todo: Implementar cache
 export const cacheConfig = {

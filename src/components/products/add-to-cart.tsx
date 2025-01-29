@@ -52,7 +52,7 @@ export const AddProductToCart = ({ product }: Props) => {
         onChange={setQuantity}
         maxQuantity={maxStock}
       />
-      <Button disabled={!size} onClick={addProductToCart}>
+      <Button disabled={!size || quantity > maxStock} onClick={addProductToCart}>
         Agregar al carrito
       </Button>
     </div>

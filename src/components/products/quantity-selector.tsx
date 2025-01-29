@@ -1,5 +1,6 @@
 import { MinusCircleIcon, PlusCircleIcon } from "lucide-react";
 import { Button } from "../ui/button";
+import { toast } from "sonner";
 
 interface Props {
   quantity: number;
@@ -12,7 +13,8 @@ export const ProductQuantitySelector = ({ quantity, onChange, maxQuantity }: Pro
     if (quantity + value < 1) return;
 
     if (quantity + value > maxQuantity){
-      alert("No puedes llevar mas")
+      toast.info("No hay suficiente stock");
+      
       return
     }
     onChange(quantity + value);

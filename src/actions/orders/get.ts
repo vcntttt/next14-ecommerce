@@ -41,10 +41,10 @@ export const getOrderById = async (id: string) => {
           },
         },
       },
-      cacheStrategy: {
-        ttl: 60 * 60 * 24,
-        tags: [`order-${id}`],
-      },
+      // cacheStrategy: {
+      //   ttl: 60 * 60 * 24,
+      //   tags: [`order_${id}`],
+      // },
     });
 
     if (!order) throw `${id} no existe`;
@@ -93,7 +93,7 @@ export const getOrdersByUser = async () => {
     },
     // cacheStrategy: {
     //   ttl: 60 * 60 * 24,
-    //   tags: [`orders-user-${session.user.id}`],
+    //   tags: [`orders_user_${session.user.id}`],
     // },
   });
 
@@ -129,10 +129,10 @@ export const getOrdersByAdmin = async () => {
         },
       },
     },
-    cacheStrategy: {
-      ttl: 60 * 60 * 24,
-      tags: ["orders"],
-    },
+    // cacheStrategy: {
+    //   ttl: 60 * 60 * 24,
+    //   tags: ["orders"],
+    // },
   });
 
   return {

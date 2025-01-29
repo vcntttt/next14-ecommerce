@@ -26,7 +26,7 @@ export default function CheckoutPage() {
   const [error, setError] = useState("");
   const address = useAddressStore((state) => state.address);
   const { cart, clearCart } = useCartStore();
-  const router = useRouter()
+  const router = useRouter();
 
   async function handlePlaceOrder() {
     setIsPlacingOrder(true);
@@ -41,14 +41,16 @@ export default function CheckoutPage() {
 
     if (!response.ok) {
       setError(response.message);
+      setIsPlacingOrder(false);
       toast.error(response.message);
       return;
     }
+    
     setIsPlacingOrder(false);
     toast.success(response.message);
     toast.loading("Redireccionando...", { duration: 1000 });
-    clearCart()
-    router.replace(`/orders/${response.order?.id}`)
+    clearCart();
+    router.replace(`/orders/${response.order?.id}`);
   }
 
   return (
@@ -88,14 +90,18 @@ export default function CheckoutPage() {
                 onClick={handlePlaceOrder}
               >
                 {isPlacingOrder && <Loader2 className="animate-spin" />}
-                {isPlacingOrder ? "Esperando" : "Colocar orden"}
+                {isPlacingOrder
+                  ? "Colocando orden..."
+                  : error
+                  ? "Intentar de nuevo"
+                  : "Colocar orden"}
               </Button>
               <span className="text-xs">
                 Al hacer clic en &quot;Colocar orden&quot;, aceptas nuestros{" "}
                 <a href="#" className="underline">
                   términos y condiciones
-                </a>{" "}
-                y{" "}
+                </a>
+                y
                 <a href="#" className="underline">
                   política de privacidad
                 </a>

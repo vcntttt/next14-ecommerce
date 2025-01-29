@@ -35,10 +35,10 @@ export const getPaginatedProducts = async ({
             },
           },
         },
-        cacheStrategy: {
-          ttl: 60 * 60 * 24 * 7,
-          tags: ["products", `products_${gender}`],
-        },
+        // cacheStrategy: {
+        //   ttl: 60 * 60 * 24 * 7,
+        //   tags: ["products", `products_${gender}`],
+        // },
       }),
       prisma.product.count({
         where: {

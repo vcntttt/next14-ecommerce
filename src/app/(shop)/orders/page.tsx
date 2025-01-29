@@ -1,6 +1,6 @@
 import { columns } from "@/components/orders/columns";
 import { DataTable } from "@/components/orders/data-table";
-import { Title } from "../../../components/typography/title";
+import { Title } from "@/components/typography/title";
 import { getOrdersByUser } from "@/actions/orders/get";
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";

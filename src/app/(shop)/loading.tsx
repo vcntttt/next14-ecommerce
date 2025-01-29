@@ -14,7 +14,7 @@ export default function Loading() {
         <div className="square" id="sq8"></div>
         <div className="square" id="sq9"></div>
       </div>
-      <p>Estamos cargando los productos... (y alguna que otra cosa)</p>
+      {/* <p>Estamos cargando los productos... (y alguna que otra cosa)</p> */}
     </div>
   );
 }

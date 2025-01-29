@@ -38,7 +38,7 @@ export const formSchema = z.object({
   address2: z.string().optional(),
   postalCode: z.string(),
   city: z.string(),
-  country: z.string(),
+  country: z.string().min(2, { message: "Debes seleccionar un país" }),
   phone: z.string(),
   remember: z.boolean(),
 });
@@ -64,6 +64,7 @@ export function AddressForm({ dbAddress, countries }: Props) {
   }, [form, address]);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    // console.log(values);
     try {
       const { remember, ...address } = values;
       setAddress(address);
@@ -210,7 +211,10 @@ export function AddressForm({ dbAddress, countries }: Props) {
           render={({ field }) => (
             <FormItem>
               <FormLabel>País</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
+              <Select
+                value={field.value || ""}
+                onValueChange={(value) => field.onChange(value)}
+              >
                 <FormControl>
                   <SelectTrigger className="bg-blue-100/40">
                     <SelectValue placeholder="Selecciona un país" />

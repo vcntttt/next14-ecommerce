@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "ts-node src/seed/seed-db.ts",
+    "prisma:generate": "bunx prisma generate --no-engine",
     "prisma:deploy": "bunx prisma migrate deploy && bunx prisma generate --no-engine"
   },
   "dependencies": {

@@ -125,6 +125,20 @@ export default async function OrderPage({ params }: Props) {
               ) : (
                 <PaypalButton amount={order.total} orderId={order.id} />
               )}
+              <div className="text-sm text-zinc-500">
+                <p className=" mb-2">Usuario de Paypal para pruebas:</p>
+                <p className="">
+                  <span className="font-bold">email:</span>{" "}
+                  vcntttt@paypal.example.com
+                </p>
+                <p className="">
+                  <span className="font-bold">password:</span> A123456789
+                </p>
+                <p className=" mt-2">
+                  Si se acaba el saldo, contactar con
+                  <span className="underline">vrivera.dev@gmail.com</span>.
+                </p>
+              </div>
             </CardFooter>
           </Card>
         </div>

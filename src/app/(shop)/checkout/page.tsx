@@ -48,7 +48,6 @@ export default function CheckoutPage() {
     
     setIsPlacingOrder(false);
     toast.success(response.message);
-    toast.loading("Redireccionando...", { duration: 1000 });
     clearCart();
     router.replace(`/orders/${response.order?.id}`);
   }

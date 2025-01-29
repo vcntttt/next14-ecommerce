@@ -10,9 +10,8 @@ import {
   UserIcon,
   XIcon,
 } from "lucide-react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { Button } from "../ui/button";
 
 export const Sidebar = () => {
   const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
@@ -70,26 +69,29 @@ export const Sidebar = () => {
         {isAuthenticated ? (
           <>
             <Link
-              key={"/profile"}
               href={"/profile"}
               className="flex items-center p-2 my-4 hover:bg-gray-100 rounded transition-all"
             >
               <UserIcon />
               <span className="ml-3">Perfil</span>
             </Link>
-            <Button
-            size={"lg"}
-              variant={"ghost"}
-              onClick={() => signOut()}
+            <Link
+              href={"/profile/orders"}
+              className="flex items-center p-2 my-4 hover:bg-gray-100 rounded transition-all"
+            >
+              <TicketIcon />
+              <span className="ml-3">Mis pedidos</span>
+            </Link>
+            <Link
+              href={"/api/auth/signout"}
               className="flex items-center p-2 my-4 hover:bg-gray-100 rounded transition-all w-full justify-start text-lg"
             >
               <LogOut size={24}/>
               <span className="ml-3">Salir</span>
-            </Button>
+            </Link>
           </>
         ) : (
           <Link
-            key={"/auth/login"}
             href={"/auth/login"}
             className="flex items-center p-2 my-4 hover:bg-gray-100 rounded transition-all"
           >

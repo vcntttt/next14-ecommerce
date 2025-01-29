@@ -33,10 +33,15 @@ export default async function ProfilePage() {
             <p className="text-lg font-mono">{session.user?.id}</p>
           </div>
         </CardContent>
-        <CardFooter>
+        <CardFooter className="flex flex-col gap-y-2">
           <Button asChild className="w-full">
             <Link href="/orders">
             Historial de compras
+            </Link>
+          </Button>
+          <Button asChild className="w-full">
+            <Link href="/checkout/address/edit">
+            Editar dirección de envío
             </Link>
           </Button>
         </CardFooter>

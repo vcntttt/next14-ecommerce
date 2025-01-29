@@ -13,8 +13,16 @@ export default async function AddressPage() {
   const countries = await getCountries();
   return (
     <div>
-      <Title title="Dirección de Entrega" subtitle="Esta es la información que se asociará a tu pedido"/>
-      <AddressForm dbAddress={userAddress}  countries={countries}  />
+      <Title
+        title="Dirección de Entrega"
+        subtitle="Esta es la información que se asociará a tu pedido"
+      />
+
+      <AddressForm
+        dbAddress={userAddress}
+        countries={countries}
+        isEditable={true}
+      />
     </div>
   );
 }

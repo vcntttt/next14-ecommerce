@@ -46,9 +46,10 @@ export const formSchema = z.object({
 interface Props {
   countries: Country[];
   dbAddress?: Address | undefined;
+  isEditable?: boolean;
 }
 
-export function AddressForm({ dbAddress, countries }: Props) {
+export function AddressForm({ dbAddress, countries, isEditable = false }: Props) {
   const router = useRouter();
   const { address, setAddress } = useAddressStore();
 
@@ -76,7 +77,7 @@ export function AddressForm({ dbAddress, countries }: Props) {
         await deleteUserAddress(session!.user!.id!);
         toast.success("Dirección eliminada correctamente");
       }
-      router.push("/checkout");
+      router.push(isEditable ? "/profile" : "/checkout");
     } catch (error) {
       console.log(error);
       toast.error("No se pudo guardar la dirección");
@@ -274,7 +275,7 @@ export function AddressForm({ dbAddress, countries }: Props) {
         />
         <div></div>
         <Button type="submit" className="w-full">
-          Continuar
+          {isEditable ? "Actualizar" : "Continuar"}
         </Button>
       </form>
     </Form>

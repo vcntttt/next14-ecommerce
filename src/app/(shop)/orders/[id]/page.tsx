@@ -48,8 +48,9 @@ export default async function OrderPage({ params }: Props) {
       <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-10 mb-10 w-full">
         <div className="col-span-1 md:col-span-2 flex flex-col gap-y-4">
           {order.isPaid ? (
-            <div className="bg-green-100 p-4 rounded">
-              <p className="text-green-800">Esta orden ha sido pagada</p>
+            <div className="bg-green-100 text-green-800 p-4 rounded">
+              <p className="">Esta orden ha sido pagada. <Link href="/profile/orders" className="underline">Revisar pedidos</Link></p>
+              
             </div>
           ) : (
             <div className="bg-yellow-100 p-4 rounded">
@@ -136,7 +137,7 @@ export default async function OrderPage({ params }: Props) {
                 </p>
                 <p className=" mt-2">
                   Si se acaba el saldo, contactar con
-                  <span className="underline">vrivera.dev@gmail.com</span>.
+                  <a className="underline" href="mailto:vrivera.dev@gmail.com"> vrivera.dev@gmail.com</a>.
                 </p>
               </div>
             </CardFooter>

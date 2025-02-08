@@ -60,25 +60,36 @@ export const Search = () => {
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <button className="flex items-center gap-2 py-2 rounded-md">
-            <SearchIcon/>
-            {/* <span className="text-sm">Buscar productos...</span> */}
-            <span className="text-xs bg-zinc-100 px-2 py-1 rounded-md text-zinc-800">
-              Ctrl + K
-            </span>
-          </button>
+          <div className="relative">
+            <Input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              className="peer pe-9 ps-9"
+              placeholder="Buscar productos"
+              type="search"
+            />
+            <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+              <SearchIcon size={16} strokeWidth={2} />
+            </div>
+          </div>
         </DialogTrigger>
         <DialogContent className="sm:max-w-6xl h-[500px] overflow-y-auto pt-8 fade-in-10 fade-out-10">
-          {/* <DialogTitle></DialogTitle> */}
           <DialogHeader>
             <DialogDescription className="sr-only">
               Busca productos por nombre
             </DialogDescription>
-            <Input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              placeholder="Buscar productos"
-            />
+            <div className="relative">
+              <Input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="peer pe-9 ps-9"
+                placeholder="Buscar productos"
+                type="search"
+              />
+              <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+                <SearchIcon size={16} strokeWidth={2} />
+              </div>
+            </div>
           </DialogHeader>
           <div className="">
             {filteredResults.map((product) => (

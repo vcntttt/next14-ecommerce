@@ -1,21 +1,19 @@
 "use client";
-import { useUIStore } from "@/store/ui";
-import { Role } from "@prisma/client";
-import clsx from "clsx";
+
 import {
-  LogIn,
-  LogOut,
-  ShirtIcon,
-  TicketIcon,
-  UserIcon,
-  XIcon,
-} from "lucide-react";
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { LogIn, LogOut, ShirtIcon, TicketIcon, UserIcon } from "lucide-react";
 import { useSession } from "next-auth/react";
+
+import { MenuIcon } from "lucide-react";
 import Link from "next/link";
+import { Role } from "@prisma/client/edge";
 
 export const Sidebar = () => {
-  const isSideMenuOpen = useUIStore((state) => state.isSideMenuOpen);
-  const closeMenu = useUIStore((state) => state.closeSideMenu);
   const { data: session } = useSession();
   const isAuthenticated = !!session?.user;
   const role = session?.user?.role;
@@ -37,35 +35,15 @@ export const Sidebar = () => {
       icon: UserIcon,
     },
   ];
-
   return (
-    <div>
-      {/* Background black */}
-      {isSideMenuOpen && (
-        <div className="fixed top-0 left-0 w-screen h-screen z-10 bg-black opacity-30" />
-      )}
-      {/* Blur */}
-      {isSideMenuOpen && (
-        <div
-          onClick={closeMenu}
-          className="fade-in fixed top-0 left-0 w-screen h-screen z-10 backdrop-filter backdrop-blur-sm"
-        />
-      )}
-
-      <nav
-        className={clsx(
-          "fixed p-5 right-0 top-0 w-[500px] h-screen bg-white z-20 shadow-2xl transform transition-all duration-300",
-          {
-            "translate-x-full": !isSideMenuOpen,
-          }
-        )}
-      >
-        <XIcon
-          className="absolute top-5 right-5 cursor-pointer"
-          onClick={() => closeMenu()}
-        />
-        {/* Side menu */}
-        <div className="mb-24"></div>
+    <Sheet>
+      <SheetTrigger>
+        <MenuIcon />
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <div className="mb-20"></div>
+        </SheetHeader>
         {isAuthenticated ? (
           <>
             <Link
@@ -84,9 +62,9 @@ export const Sidebar = () => {
             </Link>
             <Link
               href={"/api/auth/signout"}
-              className="flex items-center p-2 my-4 hover:bg-gray-100 rounded transition-all w-full justify-start text-lg"
+              className="flex items-center p-2 my-4 hover:bg-gray-100 rounded transition-all w-full justify-start"
             >
-              <LogOut size={24}/>
+              <LogOut />
               <span className="ml-3">Salir</span>
             </Link>
           </>
@@ -114,7 +92,7 @@ export const Sidebar = () => {
             ))}
           </>
         )}
-      </nav>
-    </div>
+      </SheetContent>
+    </Sheet>
   );
 };

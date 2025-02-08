@@ -1,6 +1,5 @@
 import "@/app/globals.css";
 import { Header } from "@/components/navigation/header";
-import { Sidebar } from "@/components/navigation/sidebar";
 import { bodyFont } from "@/components/typography/fonts";
 import type { Metadata } from "next";
 import { Providers } from "@/components/providers";
@@ -26,7 +25,6 @@ export default function RootLayout({
         <div className="max-w-7xl mx-auto">
           <Providers>
             <Header />
-            <Sidebar />
             <main className="flex flex-col gap-8 py-4 md:py-10 px-4 md:px-0">
               {children}
             </main>

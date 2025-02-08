@@ -1,7 +1,6 @@
 "use client";
 import { SessionProvider } from "next-auth/react";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
-
 interface Props {
   children: React.ReactNode;
 }
@@ -16,7 +15,7 @@ export const Providers = ({ children }: Props) => {
           currency: "USD",
         }}
       >
-        {children}
+          {children}
       </PayPalScriptProvider>
     </SessionProvider>
   );

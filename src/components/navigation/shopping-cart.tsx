@@ -39,7 +39,7 @@ export const Cart = () => {
               {totalItems}
             </span>
           )}
-          <ShoppingCart />
+          <ShoppingCart size={24}/>
         </div>
       </PopoverTrigger>
       <PopoverContent>

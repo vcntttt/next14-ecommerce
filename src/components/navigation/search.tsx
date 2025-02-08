@@ -60,16 +60,19 @@ export const Search = () => {
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <div className="relative">
-            <Input
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-              className="peer pe-9 ps-9"
-              placeholder="Buscar productos"
-              type="search"
-            />
-            <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
-              <SearchIcon size={16} strokeWidth={2} />
+          <div>
+            <SearchIcon size={24} strokeWidth={2} className="md:hidden" />
+            <div className="hidden md:block md:relative">
+              <Input
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                className="peer pe-9 ps-9"
+                placeholder="Buscar productos"
+                type="search"
+              />
+              <div className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-muted-foreground/80 peer-disabled:opacity-50">
+                <SearchIcon size={16} strokeWidth={2} />
+              </div>
             </div>
           </div>
         </DialogTrigger>
